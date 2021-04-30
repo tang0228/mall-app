@@ -5,15 +5,18 @@
       <div>香蕉，一毛一根</div>
     </div>
     <OneTab />
+    <SideBar />
   </div>
 </template>
 
 <script>
 import OneTab from '@/components/OneTab.vue';
+import SideBar from '@/components/SideBar.vue';
 
 export default {
   components: {
     OneTab,
+    SideBar,
   },
 };
 </script>

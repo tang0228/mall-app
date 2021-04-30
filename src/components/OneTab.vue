@@ -1,11 +1,11 @@
 <template>
-  <div class="one-tab-container">
+  <div class="one-tab-container" ref="oneTab">
     <div
       class="tab-item"
       v-for="(item, i) in menuList"
       :key="item.title"
       :class="{ active: index == i }"
-      @touchend="handleTouch(i)"
+      @touchend="handleTouch(i, $event)"
       @touchmove="move = true"
       @touchstart="move = false"
     >
@@ -18,6 +18,9 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import moveScroll from '@/utils/moveScroll';
+
 export default {
   data() {
     return {
@@ -133,11 +136,23 @@ export default {
     };
   },
   methods: {
-    handleTouch(i) {
-      if (!this.move) {
-        this.index = i;
+    ...mapActions(['setSideList']),
+    handleTouch(i, e) {
+      if (this.move) {
+        return;
       }
+      this.index = i;
+      const { oneTab } = this.$refs;
+      const pWidth = oneTab.clientWidth;
+      const sLeft = e.target.getBoundingClientRect().left;
+      const sWidth = e.target.offsetWidth;
+      const scrollX = sLeft - pWidth / 2 + sWidth / 2;
+      moveScroll(oneTab.scrollLeft, scrollX, oneTab, 'scrollLeft');
+      this.setSideList(this.menuList[i].title);
     },
+  },
+  created() {
+    this.$store.dispatch('setSideList', this.menuList[1].title);
   },
 };
 </script>

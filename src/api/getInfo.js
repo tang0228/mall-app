@@ -1,8 +1,12 @@
 import request from './request';
 
 export default {
-  getsideba(params) {
-    return request.get('/getsidebar', { params });
+  getSideList(type) {
+    return request.get('/getsidebar', {
+      params: {
+        type,
+      },
+    });
   },
   getGoodsList(params) {
     return request.get('/getGoodsList', { params });
