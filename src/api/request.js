@@ -7,9 +7,6 @@ const request = axios.create({
   },
 });
 
-request.interceptors.response.use((resp) => {
-  console.log(resp.data);
-  return resp.data;
-});
+request.interceptors.response.use((resp) => resp.data);
 
 export default request;

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 import moveScroll from '@/utils/moveScroll';
 
 export default {
@@ -27,10 +27,9 @@ export default {
   computed: {
     ...mapState(['sideList']),
   },
-  created() {
-    console.log(this.sideList);
-  },
   methods: {
+    ...mapActions(['setGoodsList']),
+    ...mapMutations(['resetGoodsList']),
     handleTouch(i, e) {
       if (this.move) {
         return;
@@ -42,8 +41,23 @@ export default {
       const sHeight = e.target.offsetHeight;
       const scrollY = sTop - pHeight / 2 + sHeight / 2;
       moveScroll(sideBar.scrollTop, scrollY, sideBar, 'scrollTop');
+      // 获取商品列表数据
+      // 清空商品列表，再获取
+      this.resetGoodsList();
+      this.setGoodsList({
+        type: this.sideList[i],
+        page: 1,
+        sort: 'all',
+      });
     },
-
+  },
+  mounted() {
+    this.resetGoodsList();
+    this.setGoodsList({
+      type: this.sideList[0],
+      page: 1,
+      sort: 'all',
+    });
   },
 };
 </script>

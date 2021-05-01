@@ -152,7 +152,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('setSideList', this.menuList[1].title);
+    this.setSideList(this.menuList[0].title);
   },
 };
 </script>

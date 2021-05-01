@@ -9,6 +9,10 @@ export default {
     });
   },
   getGoodsList(params) {
-    return request.get('/getGoodsList', { params });
+    return request.get('/getGoodsList', {
+      params: {
+        ...params,
+      },
+    });
   },
 };

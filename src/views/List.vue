@@ -5,18 +5,28 @@
       <div>香蕉，一毛一根</div>
     </div>
     <OneTab />
-    <SideBar />
+    <template v-if="showContent">
+      <SideBar />
+      <GoodList />
+    </template>
+    <van-loading type="spinner" size="24px" v-else/>
   </div>
 </template>
 
 <script>
 import OneTab from '@/components/OneTab.vue';
 import SideBar from '@/components/SideBar.vue';
+import GoodList from '@/components/GoodList.vue';
+import { mapState } from 'vuex';
 
 export default {
   components: {
     OneTab,
     SideBar,
+    GoodList,
+  },
+  computed: {
+    ...mapState(['showContent']),
   },
 };
 </script>
