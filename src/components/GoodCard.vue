@@ -1,7 +1,7 @@
 <template>
   <div class="good-card-container van-hairline--bottom">
     <div class="img">
-      <img :src="images[0]" />
+      <img :src="images[0]" ref="img"/>
     </div>
     <div class="content">
       <div class="title overflow-hiddehn">{{ title }}</div>
@@ -29,6 +29,7 @@
 
 <script>
 import { mapMutations } from 'vuex';
+import Animate from '@/extend';
 
 export default {
   props: ['images', 'tags', 'title', 'price', 'desc', 'id', 'num'],
@@ -36,6 +37,26 @@ export default {
     ...mapMutations(['setStorage']),
     handleClick(id, num) {
       this.setStorage({ id, value: num });
+      if (num === -1) {
+        return;
+      }
+      const { top, left } = this.$refs.img.getBoundingClientRect();
+      const { offsetWidth: imgWidth, offsetHeight: imgHeight } = this.$refs.img;
+      const car = document.getElementById('car');
+      const { top: cTop, left: cLeft } = car.getBoundingClientRect();
+      const { offsetWidth: cWidth, offsetHeight: cHeight } = car;
+      const endX = cLeft + cWidth / 2;
+      const endY = cTop + cHeight / 2;
+      window.img = this.$refs.img;
+      Animate({
+        startX: left,
+        startY: top,
+        src: this.$refs.img.src,
+        width: imgWidth,
+        height: imgHeight,
+        endX,
+        endY,
+      });
     },
   },
 };

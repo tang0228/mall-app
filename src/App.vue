@@ -3,7 +3,7 @@
     <van-tabbar fixed route>
       <van-tabbar-item icon="home-o" to="/home">首页</van-tabbar-item>
       <van-tabbar-item icon="apps-o" to="/home/list">商品</van-tabbar-item>
-      <van-tabbar-item icon="cart-o" to="/home/shopping" :badge="badge"
+      <van-tabbar-item icon="cart-o" to="/home/shopping" :badge="badge" id="car"
         >购物车</van-tabbar-item
       >
       <van-tabbar-item icon="user-circle-o" to="/my">我的</van-tabbar-item>
