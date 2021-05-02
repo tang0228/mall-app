@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '@/views/Home.vue';
 import List from '@/views/List.vue';
 import Shopping from '@/views/Shopping.vue';
+import Search from '@/components/Search.vue';
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,10 @@ const routes = [
         component: Shopping,
       },
     ],
+  },
+  {
+    path: '/search',
+    component: Search,
   },
   {
     path: '*',

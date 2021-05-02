@@ -1,15 +1,15 @@
 <template>
   <div class="list-container">
-    <div class="search">
+    <RouterLink class="search" to="/search">
       <van-icon name="search" />
       <div>香蕉，一毛一根</div>
-    </div>
+    </RouterLink>
     <OneTab />
-    <template v-if="showContent">
+    <template v-show="showContent">
       <SideBar />
       <GoodList />
     </template>
-    <van-loading type="spinner" size="24px" v-else/>
+    <van-loading type="spinner" size="24px" v-show="!showContent"/>
   </div>
 </template>
 
@@ -35,6 +35,7 @@ export default {
 .list-container {
   width: 375px;
   .search {
+    display: block;
     width: 355px;
     height: 33px;
     background-color: #eee;

@@ -63,11 +63,10 @@ export default {
     ...mapActions(['setGoodsList']),
     ...mapMutations(['resetGoodsList']),
     onRefresh() {
+      this.resetGoodsList();
       this.loading = true;
       this.finished = false;
-      this.isLoading = true;
       this.page = 1;
-      this.resetGoodsList();
       this.setGoodsList({ page: 1, sort: this.type });
       this.loading = false;
       this.finished = true;

@@ -15,4 +15,18 @@ export default {
       },
     });
   },
+  search(params) {
+    return request.get('/search', {
+      params: {
+        ...params,
+      },
+    });
+  },
+  likeSearch(value) {
+    return request.get('/likeSearch', {
+      params: {
+        likeValue: value,
+      },
+    });
+  },
 };
