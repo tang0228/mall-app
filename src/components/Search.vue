@@ -1,7 +1,7 @@
 <template>
   <div class="search-container">
     <div class="search-head">
-      <van-icon name="arrow-left" class="arr-left"/>
+      <van-icon name="arrow-left" class="arr-left" @touchend="$router.goBack()"/>
       <van-search
         class="search"
         v-model="value"
@@ -12,7 +12,7 @@
         @focus="onFocus"
       >
         <template #action v-if="showList">
-          <div @click="onSearch(value)">搜索</div>
+          <div @touchend="onSearch(value)">搜索</div>
         </template>
         <template #action v-else>
           <van-icon name="cart-o" :badge="badge" id="car"/>
@@ -48,17 +48,22 @@
         />
         </van-list>
     </div>
+    <div class="my-history" v-show="likeList.length <= 0 && showList">
+      <History :searchList="searchList" @search="onSearch"/>
+    </div>
   </div>
 </template>
 
 <script>
 import getInfo from '@/api/getInfo';
 import GoodCard from '@/components/GoodCard.vue';
+import History from '@/components/History.vue';
 import { mapState } from 'vuex';
 
 export default {
   components: {
     GoodCard,
+    History,
   },
   data() {
     return {
@@ -73,6 +78,7 @@ export default {
       page: 1,
       size: 5,
       total: 0,
+      searchList: [],
     };
   },
   methods: {
@@ -89,11 +95,24 @@ export default {
       }
     },
     onSearch(value) {
-      if (value === '') {
-        this.value = this.place;
-      } else {
+      if (value) {
         this.value = value;
       }
+      if (!this.value) {
+        this.value = this.place;
+      }
+      console.log(this.place);
+      const result = this.searchList.find((item) => item.value === this.value);
+      if (result) {
+        result.time = new Date().getTime();
+        this.searchList.sort((a, b) => b.time - a.time);
+      } else {
+        this.searchList.unshift({ value: this.value, time: new Date().getTime() });
+        if (this.searchList > 10) {
+          this.searchList.pop();
+        }
+      }
+      localStorage.setItem('searchList', JSON.stringify(this.searchList));
       this.likeList = [];
       this.goodsList = [];
       this.page = 1;
@@ -138,6 +157,9 @@ export default {
       return count;
     },
   },
+  created() {
+    this.searchList = JSON.parse(localStorage.getItem('searchList')) || [];
+  },
 };
 </script>
 
@@ -181,6 +203,13 @@ export default {
       margin: 0 auto;
       z-index: 10;
       background-color: #fff;
+    }
+    .my-history {
+      width: 350px;
+      position: absolute;
+      top: 35px;
+      left: 10px;
+      z-index: 1;
     }
 }
 </style>
